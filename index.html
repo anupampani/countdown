@@ -26,4 +26,50 @@
             font-size: 1rem;
             padding: 10px;
         }
-        butto
+        button {
+            font-size: 1rem;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Meeting Raj Countdown</h1>
+        <div id="inputContainer">
+            <label for="datetime">Set Date and Time:</label>
+            <input type="datetime-local" id="datetime">
+            <button onclick="startCountdown()">Start Countdown</button>
+        </div>
+        <div id="countdown">00:00:00</div>
+    </div>
+
+    <script>
+        let countdownInterval;
+
+        function startCountdown() {
+            clearInterval(countdownInterval);
+            const targetDate = new Date(document.getElementById('datetime').value).getTime();
+
+            countdownInterval = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdown').innerHTML = "Time's up!";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('countdown').innerHTML = 
+                    `${days}d ${hours.toString().padStart(2, '0')}h : ${minutes.toString().padStart(2, '0')}m : ${seconds.toString().padStart(2, '0')}s`;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
